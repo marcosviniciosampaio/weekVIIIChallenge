@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 public class StudentService {
     @Autowired
     StudentRepository studentRepository;
+
     public Student save(StudentDtoRequest studentDtoRequest){
         Student student = new Student(
                 null,
@@ -29,4 +30,22 @@ public class StudentService {
                 student.getName());
         return studentDtoResponse;
     }
+
+    public Student updateStudent(Long id, Student updatedStudent) {
+        if (studentRepository.existsById(id)) {
+            updatedStudent.setId(id);
+            return studentRepository.save(updatedStudent);
+        }
+        return null;
+    }
+
+    public void deleteStudent(Long id) {
+        if (studentRepository.existsById(id)) {
+            studentRepository.deleteById(id);
+        }else{
+            throw new RuntimeException("student cannot be found");
+        }
+    }
 }
+
+

@@ -5,6 +5,7 @@ import marcos.filho.compassRESTfulAPI.dto.StudentDtoResponse;
 import marcos.filho.compassRESTfulAPI.entity.Student;
 import marcos.filho.compassRESTfulAPI.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,6 +23,21 @@ public class StudentController {
     @GetMapping("/get/{id}")
     public StudentDtoResponse get( @PathVariable Long id){
         return studentService.getStudentById(id);
+    }
+
+    @PutMapping("/put/{id}")
+    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student updatedStudent) {
+        Student updated = studentService.updateStudent(id, updatedStudent);
+        if (updated != null) {
+            return ResponseEntity.ok(updated);
+        } else {
+            throw new RuntimeException(" Student cannot be found ");
+        }
+    }
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -1,21 +1,22 @@
 package marcos.filho.compassRESTfulAPI.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
-@Table(name = "STUDENT_TB")
-public class Student {
+public class Coordinator {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
 
-    public Student(){
-    }
-    public Student(Long id, String name){
+    public Coordinator(Long id, String name) {
         this.id = id;
         this.name = name;
     }
+
     public Long getId() {
         return id;
     }
@@ -32,13 +33,6 @@ public class Student {
         this.name = name;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
-    }
 
 
 }
