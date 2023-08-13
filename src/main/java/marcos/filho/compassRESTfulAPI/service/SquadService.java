@@ -3,6 +3,7 @@ package marcos.filho.compassRESTfulAPI.service;
 import marcos.filho.compassRESTfulAPI.dto.SquadDtoRequest;
 import marcos.filho.compassRESTfulAPI.dto.SquadDtoResponse;
 import marcos.filho.compassRESTfulAPI.entity.Squad;
+import marcos.filho.compassRESTfulAPI.exception.ApiRequestException;
 import marcos.filho.compassRESTfulAPI.repository.SquadRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,19 +14,22 @@ public class SquadService {
 
     @Autowired
     SquadRepository squadRepository;
-    public Squad save(SquadDtoRequest squadDtoRequest){
+    public Squad save(SquadDtoRequest squadDtoRequest) {
         Squad squad = new Squad(
                 null,
                 squadDtoRequest.getName()
         );
-        squadRepository.save(squad);
-        return squad;
+        if (squadDtoRequest.getName() != null) {
+            squadRepository.save(squad);
+            return squad;
+        } else {
+            throw new ApiRequestException("Null not allowed");
+        }
     }
-
     public SquadDtoResponse getSquadById(Long id){
         Squad squad = squadRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException(" squad cannot be found"));
+                .orElseThrow(() -> new ApiRequestException(" squad cannot be found"));
         SquadDtoResponse squadDtoResponse = new SquadDtoResponse(
                 squad.getId(),
                 squad.getName()
@@ -38,13 +42,13 @@ public class SquadService {
             updatedSquad.setId(id);
             return squadRepository.save(updatedSquad);
         }
-        return null;
+        throw new ApiRequestException("Squad cannot be found");
     }
     public void deleteSquad(Long id){
         if (squadRepository.existsById(id)) {
             squadRepository.deleteById(id);
         }else{
-            throw new RuntimeException("squad cannot be found");
+            throw new ApiRequestException("squad cannot be found");
         }
     }
 }

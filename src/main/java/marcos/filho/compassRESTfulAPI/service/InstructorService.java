@@ -3,6 +3,7 @@ package marcos.filho.compassRESTfulAPI.service;
 import marcos.filho.compassRESTfulAPI.dto.InstructorDtoRequest;
 import marcos.filho.compassRESTfulAPI.dto.InstructorDtoResponse;
 import marcos.filho.compassRESTfulAPI.entity.Instructor;
+import marcos.filho.compassRESTfulAPI.exception.ApiRequestException;
 import marcos.filho.compassRESTfulAPI.repository.InstructorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +20,28 @@ public class InstructorService {
                 instructorDtoRequest.getEmail(),
                 instructorDtoRequest.getRole()
         );
-        instructorRepository.save(instructor);
-        return instructor;
-    }
+        if(instructorDtoRequest.getName() != null &&
+                instructorDtoRequest.getLastname() != null &&
+                    instructorDtoRequest.getEmail() != null &&
+                        instructorDtoRequest.getRole() != null){
+        if(instructorDtoRequest.getRole().equalsIgnoreCase("instructor") ||
+                instructorDtoRequest.getRole().equalsIgnoreCase("scrum master") ||
+                    instructorDtoRequest.getRole().equalsIgnoreCase("coordinator"))
+        {
+            instructorRepository.save(instructor);
+            return instructor;
+        }else{
+            throw new ApiRequestException("must be instructor/scrum master/coordinator");
+        }
+        }else{
+            throw new ApiRequestException("NULL NOT ALLOWED");
+        }
+        }
 
     public InstructorDtoResponse getInstructorById(Long id){
         Instructor instructor = instructorRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("cannot find instructor"));
+                .orElseThrow(() -> new ApiRequestException("cannot find instructor"));
         InstructorDtoResponse instructorDtoResponse = new InstructorDtoResponse(
                 instructor.getId(),
                 instructor.getName(),
@@ -42,7 +57,7 @@ public class InstructorService {
             updatedInstructor.setId(id);
             return instructorRepository.save(updatedInstructor);
         }else{
-            throw new RuntimeException("cannot find the instructor");
+            throw new ApiRequestException("cannot find the instructor");
         }
     }
 
@@ -50,7 +65,7 @@ public class InstructorService {
         if(instructorRepository.existsById(id)){
             instructorRepository.deleteById(id);
         }else{
-            throw new RuntimeException("cannot find the instructor");
+            throw new ApiRequestException("cannot find the instructor");
         }
     }
 }

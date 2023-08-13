@@ -3,6 +3,7 @@ package marcos.filho.compassRESTfulAPI.service;
 import marcos.filho.compassRESTfulAPI.dto.ClassroomDtoRequest;
 import marcos.filho.compassRESTfulAPI.dto.ClassroomDtoResponse;
 import marcos.filho.compassRESTfulAPI.entity.Classroom;
+import marcos.filho.compassRESTfulAPI.exception.ApiRequestException;
 import marcos.filho.compassRESTfulAPI.repository.ClassroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,18 @@ public class ClassroomService {
                 null,
                 classroomDtoRequest.getName()
         );
-        classroomRepository.save(classroom);
-        return classroom;
+        if(classroomDtoRequest.getName() != null) {
+            classroomRepository.save(classroom);
+            return classroom;
+        }else{
+            throw new ApiRequestException("Null not allowed");
+        }
     }
 
     public ClassroomDtoResponse getClassroomById(Long id){
         Classroom classroom = classroomRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("cannot find the Classroom"));
+                .orElseThrow(() -> new ApiRequestException("cannot find the Classroom"));
         ClassroomDtoResponse classroomDtoResponse = new ClassroomDtoResponse(
                 classroom.getId(),
                 classroom.getName()
@@ -36,14 +41,14 @@ public class ClassroomService {
            updatedClassroom.setId(id);
            return classroomRepository.save(updatedClassroom);
         }
-       throw new RuntimeException("cannot update the Classroom");
+       throw new ApiRequestException("cannot update the Classroom");
     }
 
     public void deleteClassroom(Long id){
         if(classroomRepository.existsById(id)){
             classroomRepository.deleteById(id);
         }else{
-            throw new RuntimeException( "cannot find the Classroom");
+            throw new ApiRequestException( "cannot find the Classroom");
         }
     }
 }
