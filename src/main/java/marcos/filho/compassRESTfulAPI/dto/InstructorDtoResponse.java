@@ -1,25 +1,24 @@
-package marcos.filho.compassRESTfulAPI.entity;
+package marcos.filho.compassRESTfulAPI.dto;
 
-import jakarta.persistence.*;
+import org.springframework.data.relational.core.sql.In;
 
-@Entity
-@Table(name = "STUDENT_TB")
-public class Student {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class InstructorDtoResponse {
     private Long id;
     private String name;
     private String lastname;
     private String email;
+    private String role;
 
-    public Student(){
-    }
-    public Student(Long id, String name, String lastname, String email){
+    public InstructorDtoResponse(){}
+
+    public InstructorDtoResponse(Long id, String name, String lastname, String email, String role){
         this.id = id;
         this.name = name;
         this.lastname = lastname;
         this.email = email;
+        this.role = role;
     }
+
     public Long getId() {
         return id;
     }
@@ -52,16 +51,11 @@ public class Student {
         this.email = email;
     }
 
-    @Override
-    public String toString() {
-        return "Student{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lastname='" + lastname + '\'' +
-                ", email='" + email + '\'' +
-                '}';
+    public String getRole() {
+        return role;
     }
 
-
-
+    public void setRole(String function) {
+        this.role = role;
+    }
 }

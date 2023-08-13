@@ -15,7 +15,9 @@ public class StudentService {
     public Student save(StudentDtoRequest studentDtoRequest){
         Student student = new Student(
                 null,
-                studentDtoRequest.getName()
+                studentDtoRequest.getName(),
+                studentDtoRequest.getLastname(),
+                studentDtoRequest.getEmail()
         );
         studentRepository.save(student);
         return student;
@@ -27,7 +29,9 @@ public class StudentService {
                 .orElseThrow(()-> new RuntimeException("student cannot be found"));
         StudentDtoResponse studentDtoResponse = new StudentDtoResponse(
                 student.getId(),
-                student.getName());
+                student.getName(),
+                student.getLastname(),
+                student.getEmail());
         return studentDtoResponse;
     }
 

@@ -1,18 +1,19 @@
 package marcos.filho.compassRESTfulAPI.dto;
 
-public class StudentDtoRequest{
+public class InstructorDtoRequest {
     private String name;
     private String lastname;
     private String email;
+    private String role;
 
-    public StudentDtoRequest(){}
+    public InstructorDtoRequest(){}
 
-    public StudentDtoRequest(String name, String lastname, String email) {
+    public InstructorDtoRequest(String name, String lastname, String email, String role) {
         this.name = name;
         this.lastname = lastname;
         this.email = email;
+        this.role = role;
     }
-
     public String getName() {
         return name;
     }
@@ -37,5 +38,12 @@ public class StudentDtoRequest{
         this.email = email;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 
 }
