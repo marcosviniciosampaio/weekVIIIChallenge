@@ -13,6 +13,8 @@ public class ScrumMaster {
     private Long id;
     private String name;
 
+    public ScrumMaster(){}
+
     public ScrumMaster(Long id, String name){
         this.id = id;
         this.name = name;

@@ -3,6 +3,9 @@ package marcos.filho.compassRESTfulAPI.dto;
 public class CoordinatorDtoRequest {
     private String name;
 
+    public CoordinatorDtoRequest(){
+
+    }
     public CoordinatorDtoRequest(String name) {
         this.name = name;
     }

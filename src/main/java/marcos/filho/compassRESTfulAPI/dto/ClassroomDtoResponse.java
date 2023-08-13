@@ -4,6 +4,7 @@ public class ClassroomDtoResponse {
     private Long id;
     private String name;
 
+    public ClassroomDtoResponse(){}
     public ClassroomDtoResponse(Long id, String name) {
         this.id = id;
         this.name = name;

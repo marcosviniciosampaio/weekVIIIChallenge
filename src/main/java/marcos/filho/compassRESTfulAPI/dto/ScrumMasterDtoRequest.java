@@ -3,6 +3,7 @@ package marcos.filho.compassRESTfulAPI.dto;
 public class ScrumMasterDtoRequest {
     private String name;
 
+    public ScrumMasterDtoRequest(){}
     public ScrumMasterDtoRequest(String name){
         this.name = name;
     }

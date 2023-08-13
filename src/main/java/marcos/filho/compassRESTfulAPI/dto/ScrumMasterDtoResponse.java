@@ -6,6 +6,8 @@ public class ScrumMasterDtoResponse {
     private Long id;
     private String name;
 
+    public ScrumMasterDtoResponse(){}
+
     public ScrumMasterDtoResponse(Long id, String name){
         this.id = id;
         this.name = name;

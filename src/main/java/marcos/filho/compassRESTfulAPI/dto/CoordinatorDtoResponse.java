@@ -4,6 +4,8 @@ public class CoordinatorDtoResponse {
     private Long id;
     private String name;
 
+    public CoordinatorDtoResponse(){}
+
     public CoordinatorDtoResponse(Long id, String name) {
         this.id = id;
         this.name = name;

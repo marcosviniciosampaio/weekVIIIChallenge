@@ -1,6 +1,9 @@
 package marcos.filho.compassRESTfulAPI.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class ClassroomDtoRequest {
+
     private String name;
 
     public String getName(){

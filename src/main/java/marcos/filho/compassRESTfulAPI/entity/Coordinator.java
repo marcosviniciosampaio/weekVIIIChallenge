@@ -12,6 +12,9 @@ public class Coordinator {
     private Long id;
     private String name;
 
+    public Coordinator(){
+
+    }
     public Coordinator(Long id, String name) {
         this.id = id;
         this.name = name;
