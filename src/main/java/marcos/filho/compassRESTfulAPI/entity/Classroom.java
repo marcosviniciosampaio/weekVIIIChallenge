@@ -1,45 +1,38 @@
 package marcos.filho.compassRESTfulAPI.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "class_tb")
 public class Classroom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idClass;
     private String name;
-
-    public Classroom(){
-    }
-    public Classroom(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Classroom{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
+    @ManyToMany
+    @JoinTable(
+            name = "student_tb",
+            joinColumns = @JoinColumn(name = "idClass"),
+            inverseJoinColumns = @JoinColumn(name = "idStudent")
+    )
+    private List<Student> students = new ArrayList<>();
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private ClassStatus status;
+    public enum ClassStatus{
+        WAITING,
+        STARTED,
+        FINISHED
     }
 }

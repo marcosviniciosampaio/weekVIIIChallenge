@@ -16,40 +16,35 @@ public class StudentService {
     public Student save(StudentDtoRequest studentDtoRequest) {
         Student student = new Student(
                 null,
-                studentDtoRequest.getName(),
-                studentDtoRequest.getLastname(),
-                studentDtoRequest.getEmail()
-        );
-        if (studentDtoRequest.getName() != null && studentDtoRequest.getLastname() != null && studentDtoRequest.getEmail() != null) {
+                studentDtoRequest.getName());
+        if (studentDtoRequest.getName() != null) {
             studentRepository.save(student);
             return student;
         } else {
             throw new ApiRequestException("Null not allowed");
         }
     }
-    public StudentDtoResponse getStudentById(Long id){
+    public StudentDtoResponse getStudentById(Long idStudent){
         Student student = studentRepository
-                .findById(id)
+                .findById(idStudent)
                 .orElseThrow(()-> new ApiRequestException("student cannot be found"));
         StudentDtoResponse studentDtoResponse = new StudentDtoResponse(
-                student.getId(),
-                student.getName(),
-                student.getLastname(),
-                student.getEmail());
+                student.getIdStudent(),
+                student.getName());
         return studentDtoResponse;
     }
 
-    public Student updateStudent(Long id, Student updatedStudent) {
-        if (studentRepository.existsById(id)) {
-            updatedStudent.setId(id);
+    public Student updateStudent(Long idStudent, Student updatedStudent) {
+        if (studentRepository.existsById(idStudent)) {
+            updatedStudent.setIdStudent(idStudent);
             return studentRepository.save(updatedStudent);
         }
         throw new ApiRequestException(" Student cannot be found ");
     }
 
-    public void deleteStudent(Long id) {
-        if (studentRepository.existsById(id)) {
-            studentRepository.deleteById(id);
+    public void deleteStudent(Long idStudent) {
+        if (studentRepository.existsById(idStudent)) {
+            studentRepository.deleteById(idStudent);
         }else{
             throw new ApiRequestException("student cannot be found");
         }
